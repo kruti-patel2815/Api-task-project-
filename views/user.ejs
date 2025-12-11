@@ -1,0 +1,43 @@
+<h1>This is test file</h1>
+
+<form action="/createData">
+    <input type="hidden" name="id" value="<%= editrecord ? editrecord.id : '' %>">
+
+    username: <input type="text" name="username" value="<%= editrecord ? editrecord.username : '' %>"><br><br>
+
+    email: <input type="text" name="email" value="<%= editrecord ? editrecord.email : '' %>"><br><br>
+
+    password: <input type="text" name="password" value="<%= editrecord ? editrecord.password : '' %>"><br><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<table border="1" style="margin-top:20px;">
+    <tr>
+        <th>username</th>
+        <th>email</th>
+        <th>password</th>
+        <th>Delete</th>
+        <th>Edit</th>
+    </tr>
+
+    <% data.map((i)=> { %>
+        <tr>
+            <td><%= i.username %></td>
+            <td><%= i.email %></td>
+            <td><%= i.password %></td>
+
+            <td>
+                <a href="/deleteData/<%= i._id %>">
+                    <button>Delete</button>
+                </a>
+            </td>
+
+            <td>
+                <a href="/editData/<%= i._id %>">
+                    <button>Edit</button>
+                </a>
+            </td>
+        </tr>
+    <% }) %>
+</table>
