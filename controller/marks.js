@@ -3,12 +3,12 @@ const USER = require('../model/marks');
 
 exports.pageview = async (req, res) => {
     try {
-        const data = await USER.find()
+        const data = await USER.find().populate('studentname');
         res.status(200).json({
-            status : 'Success',
-            message : 'Data found',
-            data : data
-        })   
+            status: 'Success',
+            message: 'Data found',
+            data: data
+        })
     } catch (error) {
         res.status(404).json({
             status: 'Fail',
@@ -20,31 +20,31 @@ exports.pageview = async (req, res) => {
 
 exports.createData = async (req, res) => {
 
-    
-    
-   const data = req.body
-   
+
+
+    const data = req.body
+
     try {
         const user = await USER.create(data)
-        console.log("====",user);
+        console.log("====", user);
         res.status(201).json({
-            status : 'Success',
-            message : 'Data create success',
-            data : user
+            status: 'Success',
+            message: 'Data create success',
+            data: user
         })
     } catch (error) {
         res.status(404).json({
-            status : 'Fail',
-            message : error.message
+            status: 'Fail',
+            message: error.message
         })
     }
-    
-    
+
+
 };
 
 
 exports.deleteData = async (req, res) => {
-  try {
+    try {
         const deleteId = req.params.id
 
         const deleteUser = await USER.findByIdAndDelete(deleteId)
@@ -52,7 +52,7 @@ exports.deleteData = async (req, res) => {
         res.status(200).json({
             status: 'Success',
             message: 'Data delete success',
-            data : deleteUser
+            data: deleteUser
         })
 
     } catch (error) {
@@ -65,10 +65,10 @@ exports.deleteData = async (req, res) => {
 
 
 exports.editData = async (req, res) => {
-   try {
+    try {
         const editId = req.params.id
 
-        const editUser = await USER.findByIdAndUpdate(editId , req.body ,{ new : true})
+        const editUser = await USER.findByIdAndUpdate(editId, req.body, { new: true })
         res.status(200).json({
             status: 'Success',
             message: 'Data update success',
@@ -81,3 +81,6 @@ exports.editData = async (req, res) => {
         })
     }
 };
+
+
+
