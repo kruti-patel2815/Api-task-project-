@@ -3,7 +3,32 @@ const USER = require('../model/marks');
 
 exports.pageview = async (req, res) => {
     try {
-        const data = await USER.find().populate('studentname');
+        const data = await USER.aggregate([
+            {
+                $lookup : {
+                    from : "students",
+                    localField : "studentname" ,
+                    foreignField : "_id" ,
+                    as : "StudentResult"
+                }
+            },
+            {
+                $unwind : "$StudentResult"
+            },
+            {
+                $addFields : {
+                    sum : {
+                        $sum : ['$sub1' , '$sub3' , '$sub3']
+                    },
+                    Min : {
+                        $min : ['$sub1' , '$sub3' , '$sub3']
+                    },
+                    Max : {
+                        $max : ['$sub1' , '$sub3' , '$sub3']
+                    }
+                }
+            }
+        ]);
         res.status(200).json({
             status: 'Success',
             message: 'Data found',
