@@ -1,6 +1,6 @@
 const USER = require('../model/user');
 let bcrypt = require('bcrypt')
-
+let jwt = require('jsonwebtoken')
 exports.pageview = async (req, res) => {
     try {
         const data = await USER.find()
@@ -80,3 +80,30 @@ exports.editData = async (req, res) => {
         })
     }
 };
+
+
+exports.login = async(req , res) => {
+    try {
+        const data = req.body
+        const emailVerify = await USER.findOne({ email: data.email })
+        if (!emailVerify) throw new Error("Invalid email")
+
+        const passVerify = await bcrypt.compare(data.password, emailVerify.password)
+
+        if (!passVerify) throw new Error("Invalid Password")
+
+        const token = jwt.sign({id : emailVerify._id} , 'surat')
+
+            res.status(200).json({
+                status: 'Success',
+                message: 'login Success',
+                data: emailVerify,
+                token
+            })
+    } catch (error) {
+        res.status(404).json({
+            status: 'Fail',
+            message: error.message
+        })
+    }
+}

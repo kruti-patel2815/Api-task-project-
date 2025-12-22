@@ -23,4 +23,6 @@ router.delete('/deleteData/:id', TC.deleteData);
 
 router.patch('/editData/:id', TC.editData);
 
+router.post('/login' , TC.login)
+
 module.exports = router;
